@@ -1,0 +1,42 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GC_Clicker.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="RandomDelay" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ClickDelay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="X" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1120</Value>
+    </Setting>
+    <Setting Name="Y" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="RandomPosition" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="StopAtTime" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="EndTime" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/05/2024 23:59:59</Value>
+    </Setting>
+    <Setting Name="TemporaryPause" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="EarnPerTap" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="EnergyLimit" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1500</Value>
+    </Setting>
+    <Setting Name="PauseAfter" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">160000</Value>
+    </Setting>
+    <Setting Name="ResumeAfter" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">666000</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
