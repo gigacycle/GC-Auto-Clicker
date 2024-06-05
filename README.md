@@ -10,7 +10,21 @@
 - Calculates temporary pauses based on your 'earn per tap' value, 'energy level' value, and 'mouse click delay'.
 - Supports auto stop by setting a specific time.
 
-## Screenshots
+## Screenshot
 <div align="center">
-  <img src="photo_2024-02-17_13-56-18.jpg" alt="Screenshot 1" width="250" />
+  <img src="Screenshot 2024-06-05 151815.png" alt="Screenshot 1" width="250" />
 </div>
+
+## Installation
+
+To install and run this application, follow these steps:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/hamster-combat-autoclicker.git
+
+2. **Open the HamsterCombatAutoClicker.sln file in Visual Studio and run the project.**
+
+## Contributing
+
+Contributions are welcome! If you have suggestions for improvements.
