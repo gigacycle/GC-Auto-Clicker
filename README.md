@@ -25,6 +25,16 @@ To install and run this application, follow these steps:
 
 2. **Open the HamsterCombatAutoClicker.sln file in Visual Studio and run the project.**
 
+## Usage
+1. **Set up BlueStacks:**
+    - Download and install BlueStacks from [here](https://www.bluestacks.com/download.html).
+    - Install Telegram on BlueStacks.
+    - Run Hamster Kombat on Telegram within BlueStacks.
+
+2. **Launch the application:**
+    - Run the executable file generated after building the project.
+    - Configure settings and press 'Start'
+
 ## Contributing
 
 Contributions are welcome! If you have suggestions for improvements.
