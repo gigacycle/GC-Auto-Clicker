@@ -23,7 +23,7 @@ To install and run this application, follow these steps:
    ```bash
    git clone https://github.com/gigacycle/GC-Hamster-Kombat-Clicker.git
 
-2. **Open the HamsterCombatAutoClicker.sln file in Visual Studio and run the project.**
+2. **Open the GC-Clicker.sln file in Visual Studio and run the project.**
 
 ## Usage
 1. **Set up BlueStacks:**
