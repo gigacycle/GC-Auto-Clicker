@@ -1,7 +1,7 @@
 # GC Game Clicker
 
 ## Description
-'GC Hamster Kombat Clicker' is a C# Windows Form application designed to automate the clicking process in the game Hamster Kombat. This tool helps users earn tokens more efficiently by automating repetitive clicking tasks, including managing energy limitations within the game.
+'GC Game Clicker' is a C# Windows Form application designed to automate the clicking process in the game Hamster Kombat. This tool helps users earn tokens more efficiently by automating repetitive clicking tasks, including managing energy limitations within the game.
 
 ## Features
 - Automated mouse clicking at user-defined intervals.
