@@ -166,5 +166,17 @@ namespace GC_Clicker.Properties {
                 this["ResumeAfter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool CheckBlueStackAppPlayer {
+            get {
+                return ((bool)(this["CheckBlueStackAppPlayer"]));
+            }
+            set {
+                this["CheckBlueStackAppPlayer"] = value;
+            }
+        }
     }
 }

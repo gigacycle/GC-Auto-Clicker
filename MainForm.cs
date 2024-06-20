@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 namespace GC_Clicker
@@ -23,6 +24,7 @@ namespace GC_Clicker
         private const uint MOD_NONE = 0x0000;
         private const uint VK_F9 = 0x78; // F9 key for start/stop
 
+        private bool checkBlueStacksBeforeStart = true;
         private bool isClicking = false;
         private bool stopAtTime = false;
         private bool randomDelay = false;
@@ -30,76 +32,121 @@ namespace GC_Clicker
         private bool temporaryPause = false;
         private DateTime endTime;
         private int delay, earnPerTap, energyLimit, elapsedPauseTime, x = 1120, y = 500;
-        private int pauseAfter, resumeAfter;
+        private int pauseAfter, resumeAfter, clickTimer;
         private Random random;
+
+        private BackgroundWorker worker;
 
         public MainForm()
         {
             InitializeComponent();
             ReadSettings();
             RegisterHotKey(this.Handle, HOTKEY_ID, MOD_NONE, VK_F9);
+            worker = new BackgroundWorker();
+            worker.WorkerSupportsCancellation = true;
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += Worker_DoWork;
+            worker.ProgressChanged += Worker_ProgressChanged;
+            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
             random = new Random();
+        }
+
+        private void Worker_DoWork(object? sender, DoWorkEventArgs e)
+        {
+            DateTime lastPauseTime = DateTime.Now;
+            elapsedPauseTime = 0;
+            isClicking = true;
+
+            while (!worker.CancellationPending)
+            {
+                if (checkBlueStacksBeforeStart && !BlueStacksController.BringBlueStacksToFront())
+                {
+                    MessageBox.Show("'BlueStacks App Player' is not running!");
+                    break;
+                }
+
+                if (stopAtTime && DateTime.Now >= endTime)
+                    break;
+                int clickCount = 0;
+                while (!worker.CancellationPending)
+                {
+                    int rX = random.Next(x - 20, x + 20);
+                    int rY = random.Next(y - 10, y + 10);
+                    if (randomPositions)
+                        PerformClick(rX, rY);
+                    else
+                        PerformClick(x, y);
+
+                    var delayVal = delay;
+                    if (randomDelay)
+                        delayVal = random.Next(1, delay);
+                    Thread.Sleep(delayVal);
+
+                    clickCount++;
+
+                    if (temporaryPause)
+                    {
+                        elapsedPauseTime += delayVal;
+                        worker.ReportProgress((int)(elapsedPauseTime * 100 / (double)pauseAfter));
+
+                        if (elapsedPauseTime >= pauseAfter)
+                        {
+                            elapsedPauseTime = 0;
+                            break;
+                        }
+                    }
+                }
+                int tickCount = 0;
+                worker.ReportProgress(0);
+                while (!worker.CancellationPending)
+                {
+                    Thread.Sleep(3000);
+                    tickCount++;
+                    worker.ReportProgress((int)(tickCount * 3000 * 100 / (double)resumeAfter));
+                    if (tickCount * 3000 >= resumeAfter)
+                        break;
+                }
+            }
+        }
+
+        private void Worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
+        {
+            if (!pbMain.Visible) pbMain.Visible = true;
+            if (e.ProgressPercentage >= 0 && e.ProgressPercentage <= pbMain.Maximum)
+                pbMain.Value = e.ProgressPercentage;
+        }
+
+        private void Worker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
+        {
+            isClicking = false;
+            btnStartStop.Text = "Start";
+            gbClick.Enabled = true;
+            gbTimer.Enabled = true;
+            gbTempPause.Enabled = true;
+            pbMain.Visible = false;
         }
 
         private void StartButton_Click(object sender, EventArgs e)
         {
             if (!isClicking)
             {
+                SaveSettings();
+                if (checkBlueStacksBeforeStart && !BlueStacksController.BringBlueStacksToFront())
+                {
+                    MessageBox.Show("'BlueStacks App Player' is not running!");
+                    return;
+                }
                 isClicking = true;
                 gbClick.Enabled = false;
                 gbTimer.Enabled = false;
                 gbTempPause.Enabled = false;
-                SaveSettings();
-                new Thread(ClickLoop).Start();
                 btnStartStop.Text = "Stop";
+                worker.RunWorkerAsync();
             }
             else
             {
-                isClicking = false;
-                btnStartStop.Text = "Start";
-                gbClick.Enabled = true;
-                gbTimer.Enabled = true;
-                gbTempPause.Enabled = true;
+                worker.CancelAsync();
             }
-        }
-
-        private void ClickLoop()
-        {
-            DateTime lastPauseTime = DateTime.Now;
-            elapsedPauseTime = 0;
-
-            while (isClicking)
-            {
-                if (stopAtTime && DateTime.Now >= endTime)
-                    break;
-
-                int rX = random.Next(x - 20, x + 20);
-                int rY = random.Next(y - 10, y + 10);
-                if (randomPositions)
-                    PerformClick(rX, rY);
-                else
-                    PerformClick(x, y);
-
-                var delayVal = delay;
-                if (randomDelay)
-                    delayVal = random.Next(1, delay);
-
-                Thread.Sleep(delayVal);
-
-                if (temporaryPause)
-                {
-                    elapsedPauseTime += delayVal;
-
-                    if (elapsedPauseTime >= pauseAfter)
-                    {
-                        Thread.Sleep(resumeAfter);
-                        elapsedPauseTime = 0;
-                    }
-                }
-            }
-
-            isClicking = false;
-            Invoke(new Action(() => btnStartStop.Text = "Start"));
         }
 
         private void PerformClick(int x, int y)
@@ -128,19 +175,13 @@ namespace GC_Clicker
             base.WndProc(ref m);
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            UnregisterHotKey(this.Handle, HOTKEY_ID);
-            SaveSettings();
-            base.OnFormClosing(e);
-        }
-
         private void ReadFromUI()
         {
             randomDelay = chRandomDelay.Checked;
             int.TryParse(txtDelay.Text, out delay);
             randomPositions = chRandomPosition.Checked;
             stopAtTime = chStopAtTime.Checked;
+            checkBlueStacksBeforeStart = chCheckBlueStacks.Checked;
             endTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, endTimePicker.Value.Hour, endTimePicker.Value.Minute, endTimePicker.Value.Second);
             temporaryPause = chTempPause.Checked;
             int.TryParse(txtEanPerTap.Text, out earnPerTap);
@@ -165,6 +206,7 @@ namespace GC_Clicker
             txtResumeAfter.Text = resumeAfter.ToString();
             txtX.Text = x.ToString();
             txtY.Text = y.ToString();
+            chCheckBlueStacks.Checked = checkBlueStacksBeforeStart;
         }
 
         private void ReadSettings()
@@ -181,6 +223,8 @@ namespace GC_Clicker
             energyLimit = Properties.Settings.Default.EnergyLimit;
             pauseAfter = Properties.Settings.Default.PauseAfter;
             resumeAfter = Properties.Settings.Default.ResumeAfter;
+            checkBlueStacksBeforeStart = Properties.Settings.Default.CheckBlueStackAppPlayer;
+
             UpdateUI();
         }
 
@@ -199,6 +243,7 @@ namespace GC_Clicker
             Properties.Settings.Default.EnergyLimit = energyLimit;
             Properties.Settings.Default.PauseAfter = pauseAfter;
             Properties.Settings.Default.ResumeAfter = resumeAfter;
+            Properties.Settings.Default.CheckBlueStackAppPlayer = checkBlueStacksBeforeStart;
             Properties.Settings.Default.Save();
         }
 
@@ -216,14 +261,14 @@ namespace GC_Clicker
             int delayDiv = chRandomDelay.Checked ? 2 : 1;
             clickDelay = chRandomDelay.Checked ? (int)Math.Round(clickDelay * (3 / 4.0f)) : clickDelay;
             txtResumeAfter.Text = (el / 3 * 1000).ToString();
-            txtPauseAfter.Text = (el / ept * clickDelay).ToString();
+            int clickDuration = el / ept * clickDelay;
+            txtPauseAfter.Text = (clickDuration + (clickDuration / 10)).ToString();
         }
 
         private void txtEanPerTap_TextChanged(object sender, EventArgs e)
         {
             CalculateTiming();
         }
-
 
         private void txtEnergyLimit_TextChanged(object sender, EventArgs e)
         {
@@ -233,6 +278,19 @@ namespace GC_Clicker
         private void txtDelay_TextChanged(object sender, EventArgs e)
         {
             CalculateTiming();
+        }
+
+        private void chRandomDelay_CheckedChanged(object sender, EventArgs e)
+        {
+            CalculateTiming();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (isClicking)
+                worker.CancelAsync();
+            UnregisterHotKey(this.Handle, HOTKEY_ID);
+            SaveSettings();
         }
     }
 }

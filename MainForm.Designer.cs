@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             label2 = new Label();
             endTimePicker = new DateTimePicker();
             btnStartStop = new Button();
@@ -43,6 +44,7 @@
             txtResumeAfter = new TextBox();
             gbTimer = new GroupBox();
             gbClick = new GroupBox();
+            chCheckBlueStacks = new CheckBox();
             txtY = new TextBox();
             lblY = new Label();
             txtX = new TextBox();
@@ -58,6 +60,7 @@
             label8 = new Label();
             txtEanPerTap = new TextBox();
             label7 = new Label();
+            pbMain = new ProgressBar();
             gbTimer.SuspendLayout();
             gbClick.SuspendLayout();
             gbTempPause.SuspendLayout();
@@ -83,9 +86,9 @@
             // 
             // btnStartStop
             // 
-            btnStartStop.Location = new Point(242, 12);
+            btnStartStop.Location = new Point(247, 12);
             btnStartStop.Name = "btnStartStop";
-            btnStartStop.Size = new Size(75, 284);
+            btnStartStop.Size = new Size(70, 242);
             btnStartStop.TabIndex = 4;
             btnStartStop.Text = "Start";
             btnStartStop.UseVisualStyleBackColor = true;
@@ -95,7 +98,7 @@
             // 
             lblDesc.AutoSize = true;
             lblDesc.Dock = DockStyle.Bottom;
-            lblDesc.Location = new Point(0, 479);
+            lblDesc.Location = new Point(0, 537);
             lblDesc.Name = "lblDesc";
             lblDesc.Size = new Size(260, 15);
             lblDesc.TabIndex = 5;
@@ -103,7 +106,7 @@
             // 
             // txtDelay
             // 
-            txtDelay.Location = new Point(90, 47);
+            txtDelay.Location = new Point(124, 48);
             txtDelay.Name = "txtDelay";
             txtDelay.Size = new Size(57, 23);
             txtDelay.TabIndex = 6;
@@ -113,7 +116,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(43, 50);
+            label3.Location = new Point(79, 51);
             label3.Name = "label3";
             label3.Size = new Size(42, 15);
             label3.TabIndex = 7;
@@ -134,12 +137,13 @@
             chRandomDelay.AutoSize = true;
             chRandomDelay.Checked = true;
             chRandomDelay.CheckState = CheckState.Checked;
-            chRandomDelay.Location = new Point(90, 22);
+            chRandomDelay.Location = new Point(18, 22);
             chRandomDelay.Name = "chRandomDelay";
             chRandomDelay.Size = new Size(103, 19);
             chRandomDelay.TabIndex = 9;
             chRandomDelay.Text = "Random Delay";
             chRandomDelay.UseVisualStyleBackColor = true;
+            chRandomDelay.CheckedChanged += chRandomDelay_CheckedChanged;
             // 
             // chTempPause
             // 
@@ -192,15 +196,16 @@
             gbTimer.Controls.Add(chStopAtTime);
             gbTimer.Controls.Add(endTimePicker);
             gbTimer.Controls.Add(label2);
-            gbTimer.Location = new Point(12, 212);
+            gbTimer.Location = new Point(12, 258);
             gbTimer.Name = "gbTimer";
-            gbTimer.Size = new Size(224, 84);
+            gbTimer.Size = new Size(305, 84);
             gbTimer.TabIndex = 15;
             gbTimer.TabStop = false;
             gbTimer.Text = "Timer";
             // 
             // gbClick
             // 
+            gbClick.Controls.Add(chCheckBlueStacks);
             gbClick.Controls.Add(txtY);
             gbClick.Controls.Add(lblY);
             gbClick.Controls.Add(txtX);
@@ -214,14 +219,26 @@
             gbClick.Controls.Add(label3);
             gbClick.Location = new Point(12, 12);
             gbClick.Name = "gbClick";
-            gbClick.Size = new Size(224, 194);
+            gbClick.Size = new Size(229, 240);
             gbClick.TabIndex = 16;
             gbClick.TabStop = false;
             gbClick.Text = "Click";
             // 
+            // chCheckBlueStacks
+            // 
+            chCheckBlueStacks.AutoSize = true;
+            chCheckBlueStacks.Checked = true;
+            chCheckBlueStacks.CheckState = CheckState.Checked;
+            chCheckBlueStacks.Location = new Point(18, 203);
+            chCheckBlueStacks.Name = "chCheckBlueStacks";
+            chCheckBlueStacks.Size = new Size(200, 19);
+            chCheckBlueStacks.TabIndex = 25;
+            chCheckBlueStacks.Text = "Check for BlueStacks Before Start";
+            chCheckBlueStacks.UseVisualStyleBackColor = true;
+            // 
             // txtY
             // 
-            txtY.Location = new Point(112, 107);
+            txtY.Location = new Point(124, 108);
             txtY.Name = "txtY";
             txtY.Size = new Size(57, 23);
             txtY.TabIndex = 24;
@@ -230,7 +247,7 @@
             // lblY
             // 
             lblY.AutoSize = true;
-            lblY.Location = new Point(90, 110);
+            lblY.Location = new Point(102, 111);
             lblY.Name = "lblY";
             lblY.Size = new Size(17, 15);
             lblY.TabIndex = 23;
@@ -238,7 +255,7 @@
             // 
             // txtX
             // 
-            txtX.Location = new Point(112, 82);
+            txtX.Location = new Point(124, 83);
             txtX.Name = "txtX";
             txtX.Size = new Size(57, 23);
             txtX.TabIndex = 22;
@@ -247,18 +264,19 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(148, 50);
+            label9.Location = new Point(187, 51);
             label9.Name = "label9";
-            label9.Size = new Size(70, 15);
+            label9.Size = new Size(23, 15);
             label9.TabIndex = 21;
-            label9.Text = "miliseconds";
+            label9.Text = "ms";
             // 
             // label6
             // 
             label6.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            label6.Location = new Point(4, 155);
+            label6.ForeColor = Color.Blue;
+            label6.Location = new Point(18, 155);
             label6.Name = "label6";
-            label6.Size = new Size(218, 36);
+            label6.Size = new Size(188, 36);
             label6.TabIndex = 20;
             label6.Text = "Clicks on random positions around your choosen position";
             // 
@@ -267,7 +285,7 @@
             chRandomPosition.AutoSize = true;
             chRandomPosition.Checked = true;
             chRandomPosition.CheckState = CheckState.Checked;
-            chRandomPosition.Location = new Point(90, 133);
+            chRandomPosition.Location = new Point(18, 133);
             chRandomPosition.Name = "chRandomPosition";
             chRandomPosition.Size = new Size(117, 19);
             chRandomPosition.TabIndex = 19;
@@ -277,7 +295,7 @@
             // lblX
             // 
             lblX.AutoSize = true;
-            lblX.Location = new Point(90, 85);
+            lblX.Location = new Point(102, 86);
             lblX.Name = "lblX";
             lblX.Size = new Size(17, 15);
             lblX.TabIndex = 11;
@@ -286,7 +304,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(0, 85);
+            label5.Location = new Point(15, 86);
             label5.Name = "label5";
             label5.Size = new Size(85, 15);
             label5.TabIndex = 10;
@@ -305,7 +323,7 @@
             gbTempPause.Controls.Add(label1);
             gbTempPause.Controls.Add(label4);
             gbTempPause.Controls.Add(txtResumeAfter);
-            gbTempPause.Location = new Point(12, 302);
+            gbTempPause.Location = new Point(12, 348);
             gbTempPause.Name = "gbTempPause";
             gbTempPause.Size = new Size(305, 168);
             gbTempPause.TabIndex = 17;
@@ -366,21 +384,33 @@
             label7.TabIndex = 16;
             label7.Text = "Earn per tap :";
             // 
+            // pbMain
+            // 
+            pbMain.Location = new Point(12, 522);
+            pbMain.Name = "pbMain";
+            pbMain.Size = new Size(305, 10);
+            pbMain.Style = ProgressBarStyle.Continuous;
+            pbMain.TabIndex = 25;
+            pbMain.Visible = false;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(324, 494);
+            ClientSize = new Size(324, 552);
+            Controls.Add(pbMain);
             Controls.Add(gbTempPause);
             Controls.Add(gbClick);
             Controls.Add(gbTimer);
             Controls.Add(lblDesc);
             Controls.Add(btnStartStop);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "GC Hamster Kombat Clicker";
+            Text = "GC Game Clicker";
+            FormClosing += MainForm_FormClosing;
             gbTimer.ResumeLayout(false);
             gbTimer.PerformLayout();
             gbClick.ResumeLayout(false);
@@ -423,5 +453,7 @@
         private TextBox txtX;
         private Label lblY;
         private TextBox txtY;
+        private ProgressBar pbMain;
+        private CheckBox chCheckBlueStacks;
     }
 }
