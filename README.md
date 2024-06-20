@@ -1,7 +1,7 @@
-# GC Hamster Kombat Clicker
+# GC Auto Clicker
 
 ## Description
-'GC Hamster Kombat Clicker' is a C# Windows Form application designed to automate the clicking process in the game Hamster Kombat. This tool helps users earn tokens more efficiently by automating repetitive clicking tasks, including managing energy limitations within the game.
+'GC Auto Clicker' is a C# Windows Form application designed to automate the clicking process in click to earn games. This tool helps users earn tokens more efficiently by automating repetitive clicking tasks, including managing energy limitations within the game.
 
 ## Features
 - Automated mouse clicking at user-defined intervals.
@@ -29,7 +29,7 @@ To install and run this application, follow these steps:
 1. **Set up BlueStacks:**
     - Download and install BlueStacks from [here](https://www.bluestacks.com/download.html).
     - Install Telegram on BlueStacks.
-    - Run Hamster Kombat on Telegram within BlueStacks.
+    - Run Hamster Kombat or similar games on Telegram within BlueStacks.
 
 2. **Launch the application:**
     - Run the executable file generated after building the project.
