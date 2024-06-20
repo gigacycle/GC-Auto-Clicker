@@ -1,7 +1,7 @@
-# GC Game Clicker
+# GC Auto Clicker
 
 ## Description
-'GC Game Clicker' is a C# Windows Form application designed to automate the clicking process in click to earn games. This tool helps users earn tokens more efficiently by automating repetitive clicking tasks, including managing energy limitations within the game.
+'GC Auto Clicker' is a C# Windows Form application designed to automate the clicking process in click to earn games. This tool helps users earn tokens more efficiently by automating repetitive clicking tasks, including managing energy limitations within the game.
 
 ## Features
 - Automated mouse clicking at user-defined intervals.
