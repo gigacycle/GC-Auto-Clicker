@@ -409,7 +409,7 @@
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "GC Game Clicker";
+            Text = "GC Auto Clicker";
             FormClosing += MainForm_FormClosing;
             gbTimer.ResumeLayout(false);
             gbTimer.PerformLayout();
