@@ -100,10 +100,10 @@ namespace GC_Clicker
                 worker.ReportProgress(0);
                 while (!worker.CancellationPending)
                 {
-                    Thread.Sleep(3000);
+                    Thread.Sleep(1000);
                     tickCount++;
-                    worker.ReportProgress((int)(tickCount * 3000 * 100 / (double)resumeAfter));
-                    if (tickCount * 3000 >= resumeAfter)
+                    worker.ReportProgress((int)(tickCount * 1000 * 100 / (double)resumeAfter));
+                    if (tickCount * 1000 >= resumeAfter)
                         break;
                 }
             }
