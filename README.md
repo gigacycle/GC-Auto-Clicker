@@ -21,7 +21,7 @@ To install and run this application, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/gigacycle/GC-Hamster-Kombat-Clicker.git
+   git clone https://github.com/gigacycle/GC-Auto-Clicker.git
 
 2. **Open the GC-Clicker.sln file in Visual Studio and run the project.**
 
