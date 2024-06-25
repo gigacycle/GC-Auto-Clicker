@@ -111,9 +111,16 @@ namespace GC_Clicker
 
         private void Worker_ProgressChanged(object? sender, ProgressChangedEventArgs e)
         {
-            if (!pbMain.Visible) pbMain.Visible = true;
+            if (!pbMain.Visible)
+            {
+                pbMain.Visible = true;
+                TaskbarProgress.SetState(this.Handle, TaskbarProgress.TaskbarStates.Indeterminate);
+            }
             if (e.ProgressPercentage >= 0 && e.ProgressPercentage <= pbMain.Maximum)
+            {
                 pbMain.Value = e.ProgressPercentage;
+                TaskbarProgress.SetValue(this.Handle, e.ProgressPercentage, 100);
+            }
         }
 
         private void Worker_RunWorkerCompleted(object? sender, RunWorkerCompletedEventArgs e)
@@ -124,6 +131,7 @@ namespace GC_Clicker
             gbTimer.Enabled = true;
             gbTempPause.Enabled = true;
             pbMain.Visible = false;
+            TaskbarProgress.SetState(this.Handle, TaskbarProgress.TaskbarStates.Normal);
         }
 
         private void StartButton_Click(object sender, EventArgs e)
